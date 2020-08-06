@@ -13,4 +13,9 @@ app.post('/plants', async (req, res) => {
   res.status(201).json(newPlant)
 })
 
+app.get('/plants', (req, res) => {
+  Plant.query().select('*')
+    .then(data => res.json(data))
+})
+
 app.listen(5000)
