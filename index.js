@@ -13,4 +13,9 @@ app.get('/plants', (req, res) => {
     .then(data => res.json(data))
 })
 
+app.get('/plants/:id', (req, res) => {
+  Plant.query().select('*').where({ id: req.params.id })
+    .then(data => res.json(data))
+})
+
 app.listen(5000)
