@@ -6,6 +6,8 @@ const bodyParser = require('body-parser')
 const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
 
+const PORT = 5000
+
 app.use(cors())
 app.use(bodyParser.json())
 
@@ -33,4 +35,4 @@ app.get('/varieties/plantId/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.listen(5000)
+app.listen(process.env.PORT || PORT)
