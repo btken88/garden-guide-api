@@ -5,6 +5,7 @@ const database = require('./database-connection')
 const bodyParser = require('body-parser')
 const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
+const Todo = require('./models/Todo')
 
 const PORT = 5000
 
@@ -35,4 +36,12 @@ app.get('/varieties/plantId/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.listen(process.env.PORT || PORT)
+app.post('/todos', (req, res) => {
+  Todo.query().insert(req.body)
+    .then(data => res.status(201).json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`Running on port ${process.env.PORT || PORT}`)
+})
