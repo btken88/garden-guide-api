@@ -4,6 +4,7 @@ const app = express()
 const database = require('./database-connection')
 const bodyParser = require('body-parser')
 const knex = require('knex')
+const morgan = require('morgan')
 const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
 const Todo = require('./models/Todo')
@@ -12,6 +13,7 @@ const PORT = 5000
 
 app.use(cors())
 app.use(bodyParser.json())
+app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
 
 app.get('/plants', (req, res) => {
   Plant.query().select('*')

@@ -12,7 +12,9 @@
     "objection": "^2.2.2",
     "pg": "^8.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",

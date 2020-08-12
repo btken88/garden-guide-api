@@ -5,7 +5,7 @@ exports.up = function (knex) {
     t.text('todo')
     t.integer('userId')
     t.boolean('done').defaultTo(false)
-    t.boolean('urgent')
+    t.boolean('urgent').defaultTo(false)
     t.timestamp('created_at').defaultTo(knex.fn.now())
     t.timestamp('updated_at').defaultTo(knex.fn.now())
   })
