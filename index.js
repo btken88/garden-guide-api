@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const app = express()
@@ -5,11 +6,11 @@ const database = require('./database-connection')
 const bodyParser = require('body-parser')
 const knex = require('knex')
 const morgan = require('morgan')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
 const Todo = require('./models/Todo')
-
-const PORT = 5000
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -61,6 +62,10 @@ app.patch('/todos/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.listen(process.env.PORT || PORT, () => {
-  console.log(`Running on port ${process.env.PORT || PORT}`)
+app.post('/users', (req, res) => {
+
+})
+
+app.listen(process.env.PORT, () => {
+  console.log(`Running on port ${process.env.PORT}`)
 })

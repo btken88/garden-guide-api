@@ -4,9 +4,12 @@
   "description": "Backend API for the garden guide app",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.2",
     "nodemon": "^2.0.4",
     "objection": "^2.2.2",
