@@ -11,6 +11,7 @@ const bcrypt = require('bcryptjs')
 const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
 const Todo = require('./models/Todo')
+const User = require('./models/User')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -62,8 +63,36 @@ app.patch('/todos/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
+  const { email, password, zip, first_name, last_name } = req.body
+  try {
+    let user = await User.query().select('*').where({ email })
+    if (user.length) return res.status(400).json({ error: 'User Already Exists' })
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
+    const userInfo = {
+      email,
+      password: hash,
+      zip,
+      first_name,
+      last_name
+    }
+    user = await User.query().insert(userInfo).returning('*')
 
+    const payload = { user_id: user.id }
+
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      (err, token) => {
+        if (err) throw err;
+        res.status(201).json({ token })
+      }
+    )
+
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
 })
 
 app.listen(process.env.PORT, () => {
