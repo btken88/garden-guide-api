@@ -63,7 +63,31 @@ app.patch('/todos/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.post('/users', async (req, res) => {
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body
+  console.log(req.body)
+  try {
+    let query = await User.query().select('*').where({ email })
+    if (!query) res.status(400).json({ error: 'Incorrect username or password' })
+
+    const user = query[0]
+    const isMatch = await bcrypt.compare(password, user.password)
+
+    if (!isMatch) res.status(400).json({ error: 'Incorrect username or password' })
+
+    const payload = { user_id: user.id }
+    jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
+      if (err) throw err
+      res.status(200).json({ token })
+    })
+  } catch (err) {
+    console.log(err)
+    res.setHeader("status", 500)
+    res.json(err.message)
+  }
+})
+
+app.post('/signup', async (req, res) => {
   const { email, password, zip, first_name, last_name } = req.body
   try {
     let user = await User.query().select('*').where({ email })
