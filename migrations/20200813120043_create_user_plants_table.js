@@ -4,6 +4,7 @@ exports.up = function (knex) {
     t.increments('id').primary()
     t.integer('userId')
     t.integer('plantId')
+    t.text('notes')
     t.timestamp('created_at').defaultTo(knex.fn.now())
     t.timestamp('updated_at').defaultTo(knex.fn.now())
   })
