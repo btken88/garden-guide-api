@@ -53,7 +53,7 @@ app.post('/todos', authorizeUser, (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.patch('/todos/:id', (req, res) => {
+app.patch('/todos/:id', authorizeUser, (req, res) => {
   const dateTime = new Date().toISOString()
   Todo.query()
     .where({ id: req.params.id })
