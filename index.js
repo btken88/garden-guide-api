@@ -41,13 +41,13 @@ app.get('/varieties/plantId/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.get('/todos', (req, res) => {
-  Todo.query().select('*')
+app.get('/todos', authorizeUser, (req, res) => {
+  Todo.query().select('*').where('userId', req.body.userId)
     .then(data => res.json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.post('/todos', (req, res) => {
+app.post('/todos', authorizeUser, (req, res) => {
   Todo.query().insert(req.body).returning('*')
     .then(data => res.status(201).json(data))
     .catch(err => res.status(500).json({ error: err.message }))
@@ -122,3 +122,16 @@ app.post('/signup', async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Running on port ${process.env.PORT}`)
 })
+
+function authorizeUser(req, res, next) {
+  const token = req.headers.authorization
+  if (!token) return res.json({ error: 'Authentication failed' }).status(401)
+  jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+    if (err) {
+      return res.json({ error: err.message }).status(500)
+    } else {
+      req.body.userId = payload.user_id
+      next()
+    }
+  })
+}
