@@ -1,6 +1,6 @@
 const { Model } = require('objection')
 const Todo = require('./Todo')
-const Plant = require('./Plant')
+const Variety = require('./Variety')
 
 class User extends Model {
   static get tableName() {
@@ -17,16 +17,16 @@ class User extends Model {
           to: 'todos.userId'
         }
       },
-      plants: {
+      varieties: {
         relation: Model.ManyToManyRelation,
-        modelClass: Plant,
+        modelClass: Variety,
         join: {
           from: 'users.id',
           through: {
             from: 'user_plants.userId',
-            to: 'user_plants.plantId'
+            to: 'user_plants.varietyId'
           },
-          to: 'plants.id'
+          to: 'varieties.id'
         }
       }
     }

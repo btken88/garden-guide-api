@@ -32,7 +32,7 @@ class Variety extends Model {
       join: {
         from: 'plants.id',
         through: {
-          from: 'user_plants.plantId',
+          from: 'user_plants.varietyId',
           to: 'user_plants.userId'
         },
         to: 'users.id'
