@@ -12,6 +12,7 @@ const Plant = require('./models/Plant')
 const Variety = require('./models/Variety')
 const Todo = require('./models/Todo')
 const User = require('./models/User')
+const UserPlant = require('./models/UserPlant')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -69,6 +70,11 @@ app.delete('/todos/:id', authorizeUser, (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
+app.post('/user_plants', authorizeUser, (req, res) => {
+  UserPlant.query().insert(req.body).returning('*')
+    .then(data => res.status(201).json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
   try {

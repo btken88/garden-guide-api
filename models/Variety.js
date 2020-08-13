@@ -1,4 +1,5 @@
 const { Model } = require('objection')
+const User = require('./User')
 
 class Variety extends Model {
   static get tableName() {
@@ -20,6 +21,21 @@ class Variety extends Model {
         indoor: { type: 'integer' },
         outdoor: { type: 'integer' },
         habit: { type: 'string' }
+      }
+    }
+  }
+
+  static relationMappings = {
+    users: {
+      relation: Model.ManyToManyRelation,
+      modelClass: User,
+      join: {
+        from: 'plants.id',
+        through: {
+          from: 'user_plants.plantId',
+          to: 'user_plants.userId'
+        },
+        to: 'users.id'
       }
     }
   }
