@@ -63,9 +63,14 @@ app.patch('/todos/:id', authorizeUser, (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
+app.delete('/todos/:id', authorizeUser, (req, res) => {
+  Todo.query().delete().where({ id: req.params.id })
+    .then(() => res.json({ message: 'Todo successfully deleted' }).status(204))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
-  console.log(req.body)
   try {
     let query = await User.query().select('*').where({ email })
     if (!query) res.status(400).json({ error: 'Incorrect username or password' })
