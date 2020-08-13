@@ -80,7 +80,7 @@ app.get('/user_plants', authorizeUser, (req, res) => {
   UserPlant.query()
     .join('varieties', 'user_plants.varietyId', 'varieties.id')
     .where('user_plants.userId', req.body.userId)
-    .select('user_plants.notes', 'varieties.*')
+    .select('user_plants.id as user_plant_id', 'user_plants.notes', 'varieties.*')
     .then(data => res.json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
