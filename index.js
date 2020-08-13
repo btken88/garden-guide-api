@@ -75,6 +75,16 @@ app.post('/user_plants', authorizeUser, (req, res) => {
     .then(data => res.status(201).json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
+
+app.get('/user_plants', authorizeUser, (req, res) => {
+  UserPlant.query()
+    .join('varieties', 'user_plants.varietyId', 'varieties.id')
+    .where('user_plants.userId', req.body.userId)
+    .select('user_plants.notes', 'varieties.*')
+    .then(data => res.json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
   try {
