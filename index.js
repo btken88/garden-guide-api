@@ -81,6 +81,12 @@ app.get('/user_plants', authorizeUser, (req, res) => {
 
 app.post('/user_plants', authorizeUser, (req, res) => {
   UserPlant.query().insert(req.body).returning('*')
+    .then(data => {
+      return UserPlant.query()
+        .join('varieties', 'user_plants.varietyId', 'varieties.id')
+        .where('user_plants.id', data.id)
+        .select('user_plants.id as user_plant_id', 'user_plants.notes', 'varieties.*')
+    })
     .then(data => res.status(201).json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
