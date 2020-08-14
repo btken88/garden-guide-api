@@ -70,17 +70,27 @@ app.delete('/todos/:id', authorizeUser, (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
+app.get('/user_plants', authorizeUser, (req, res) => {
+  UserPlant.query()
+    .join('varieties', 'user_plants.varietyId', 'varieties.id')
+    .where('user_plants.userId', req.body.userId)
+    .select('user_plants.id as user_plant_id', 'user_plants.notes', 'varieties.*')
+    .then(data => res.json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
 app.post('/user_plants', authorizeUser, (req, res) => {
   UserPlant.query().insert(req.body).returning('*')
     .then(data => res.status(201).json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
-app.get('/user_plants', authorizeUser, (req, res) => {
+app.patch('/user_plants/:id', authorizeUser, (req, res) => {
+  const dateTime = new Date().toISOString()
   UserPlant.query()
-    .join('varieties', 'user_plants.varietyId', 'varieties.id')
-    .where('user_plants.userId', req.body.userId)
-    .select('user_plants.id as user_plant_id', 'user_plants.notes', 'varieties.*')
+    .where({ id: req.params.id })
+    .update({ notes: req.body.notes, updated_at: dateTime })
+    .returning('*')
     .then(data => res.json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
