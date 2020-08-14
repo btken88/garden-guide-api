@@ -66,7 +66,7 @@ app.patch('/todos/:id', authorizeUser, (req, res) => {
 
 app.delete('/todos/:id', authorizeUser, (req, res) => {
   Todo.query().delete().where({ id: req.params.id })
-    .then(() => res.json({ message: 'Todo successfully deleted' }).status(204))
+    .then(() => res.status(204).json({ message: 'Deleted successfully' }))
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
@@ -88,6 +88,12 @@ app.post('/user_plants', authorizeUser, (req, res) => {
         .select('user_plants.id as user_plant_id', 'user_plants.notes', 'varieties.*')
     })
     .then(data => res.status(201).json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
+app.delete('/user_plants/:id', authorizeUser, (req, res) => {
+  UserPlant.query().delete().where({ id: req.params.id })
+    .then(() => res.status(204).json({ message: 'Deleted successfully' }))
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
