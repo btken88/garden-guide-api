@@ -47,7 +47,7 @@ app.post('/varieties', authorizeUser, (req, res) => {
   const newPlant = req.body
   delete newPlant.userId
   console.log(newPlant)
-  Variety.query().insert(newPlant).returning('*')
+  Variety.query().insert(newPlant).returning('*').first()
     .then(data => res.status(201).json(data))
     .catch(err => {
       console.log(err)
@@ -62,7 +62,7 @@ app.get('/todos', authorizeUser, (req, res) => {
 })
 
 app.post('/todos', authorizeUser, (req, res) => {
-  Todo.query().insert(req.body).returning('*')
+  Todo.query().insert(req.body).returning('*').first()
     .then(data => res.status(201).json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
@@ -73,6 +73,7 @@ app.patch('/todos/:id', authorizeUser, (req, res) => {
     .where({ id: req.params.id })
     .update({ ...req.body, updated_at: dateTime })
     .returning('*')
+    .first()
     .then(data => res.json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
@@ -93,7 +94,7 @@ app.get('/user_plants', authorizeUser, (req, res) => {
 })
 
 app.post('/user_plants', authorizeUser, (req, res) => {
-  UserPlant.query().insert(req.body).returning('*')
+  UserPlant.query().insert(req.body).returning('*').first()
     .then(data => {
       return UserPlant.query()
         .join('varieties', 'user_plants.varietyId', 'varieties.id')
@@ -116,6 +117,7 @@ app.patch('/user_plants/:id', authorizeUser, (req, res) => {
     .where({ id: req.params.id })
     .update({ notes: req.body.notes, updated_at: dateTime })
     .returning('*')
+    .first()
     .then(data => res.json(data))
     .catch(err => res.status(500).json({ error: err.message }))
 })
@@ -180,8 +182,8 @@ app.listen(process.env.PORT, () => {
 })
 
 app.post('/weather', authorizeUser, (req, res) => {
-  User.query().select('zip').where({ id: req.body.userId })
-    .then(data => fetchLatLon(data[0].zip))
+  User.query().select('zip').where({ id: req.body.userId }).first()
+    .then(data => fetchLatLon(data.zip))
     .then(fetchWeather)
     .then(data => res.status(200).json(data))
     .catch(err => res.json({ error: err.message }).status(500))
