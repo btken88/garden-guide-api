@@ -42,6 +42,14 @@ app.get('/varieties/plantId/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }))
 })
 
+app.post('/varieties', authorizeUser, (req, res) => {
+  const newPlant = req.body
+  delete newPlant.userId
+  Variety.query().insert(newPlant).returning('*')
+    .then(data => res.status(201).json(data))
+    .catch(err => res.status(500).json({ error: err.message }))
+})
+
 app.get('/todos', authorizeUser, (req, res) => {
   Todo.query().select('*').where('userId', req.body.userId)
     .then(data => res.json(data))
