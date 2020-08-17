@@ -17,10 +17,10 @@ class Variety extends Model {
         commonName: { type: 'string', minLength: 1 },
         description: { type: ['string', 'null'] },
         seedSpacing: { type: 'integer' },
-        maturity: { type: 'integer' },
-        indoor: { type: 'integer' },
-        outdoor: { type: 'integer' },
-        habit: { type: 'string' }
+        maturity: { type: ['integer', null] },
+        indoor: { type: ['integer', null] },
+        outdoor: { type: ['integer', null] },
+        habit: { type: ['string', null] }
       }
     }
   }

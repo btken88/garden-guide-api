@@ -45,9 +45,13 @@ app.get('/varieties/plantId/:id', (req, res) => {
 app.post('/varieties', authorizeUser, (req, res) => {
   const newPlant = req.body
   delete newPlant.userId
+  console.log(newPlant)
   Variety.query().insert(newPlant).returning('*')
     .then(data => res.status(201).json(data))
-    .catch(err => res.status(500).json({ error: err.message }))
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ error: err.message })
+    })
 })
 
 app.get('/todos', authorizeUser, (req, res) => {
