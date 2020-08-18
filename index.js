@@ -46,11 +46,9 @@ app.get('/varieties/plantId/:id', (req, res) => {
 app.post('/varieties', authorizeUser, (req, res) => {
   const newPlant = req.body
   delete newPlant.userId
-  console.log(newPlant)
   Variety.query().insert(newPlant).returning('*').first()
     .then(data => res.status(201).json(data))
     .catch(err => {
-      console.log(err)
       res.status(500).json({ error: err.message })
     })
 })
@@ -125,13 +123,12 @@ app.patch('/user_plants/:id', authorizeUser, (req, res) => {
 app.post('/login', async (req, res) => {
   const { email, password } = req.body
   try {
-    let query = await User.query().select('*').where({ email })
-    if (!query) res.status(400).json({ error: 'Incorrect username or password' })
+    let user = await User.query().select('*').where({ email }).first()
+    if (!user) return res.status(400).json({ error: 'Incorrect username or password' })
 
-    const user = query[0]
     const isMatch = await bcrypt.compare(password, user.password)
 
-    if (!isMatch) res.status(400).json({ error: 'Incorrect username or password' })
+    if (!isMatch) return res.status(400).json({ error: 'Incorrect username or password' })
 
     const payload = { user_id: user.id }
     jwt.sign(payload, process.env.JWT_SECRET, (err, token) => {
@@ -139,7 +136,6 @@ app.post('/login', async (req, res) => {
       res.status(200).json({ token })
     })
   } catch (err) {
-    console.log(err)
     res.setHeader("status", 500)
     res.json(err.message)
   }
@@ -159,7 +155,7 @@ app.post('/signup', async (req, res) => {
       first_name,
       last_name
     }
-    user = await User.query().insert(userInfo).returning('*')
+    user = await User.query().insert(userInfo).returning('*').first()
 
     const payload = { user_id: user.id }
 
@@ -210,7 +206,6 @@ function fetchLatLon(zip) {
     })
     .catch(err => err.message)
 }
-
 
 function fetchWeather(latLon) {
   const [lat, lon] = latLon
