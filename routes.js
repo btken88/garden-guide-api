@@ -127,7 +127,7 @@ async function login(req, res) {
     })
   } catch (err) {
     res.setHeader("status", 500)
-    res.json(err.message)
+    res.json({ error: err.message })
   }
 }
 
