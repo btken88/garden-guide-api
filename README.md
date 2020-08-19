@@ -106,19 +106,16 @@ function fetchWeather(latLon) {
 
 Current Features:
 
-- Create a secure login to save, update, and delete todos and plants for your garden
-- View current and upcoming weather for your zip code
-- Create garden to dos, update them as needed, mark as urgent, and move off your list when done
-- View details about different vegetables and their varieties
-- See detailed growing information about varieties in our database and your garden
-- Add notes about each variety and how it grew
-- Add new varieties to our database
+- Create new secure user accounts
+- Full CRUD actions for user To Dos and User Plants
+- Proxy API endpoint to lookup weather
+- Ability to index, show, and create different varieties of plants
 
 Future Features:
 
-- Add due dates to to dos and see reminders on your home screen
+- Add goal completion datetime to to dos
 - Get exact planting dates based on your zip code and local last frost
-- View lists of companion plants that do well together in the garden
+- Add columns to the varieties table to provide more detailed growing information
 
 ## Status
 
@@ -132,4 +129,4 @@ If you have any questions or comments, suggestions, or bug fixes, feel free to r
 
 ## License
 
-[Click to view](https://github.com/btken88/garden-guide-api/blob/master/license.txt)
+[Click to view](https://github.com/btken88/garden-guide-app/blob/master/license.txt)

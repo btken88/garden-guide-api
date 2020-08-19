@@ -4,13 +4,13 @@ const cors = require('cors')
 const app = express()
 
 const bodyParser = require('body-parser')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 
 const routes = require('./routes')
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
+// app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
 
 app.get('/plants', routes.getAllPlants)
 app.get('/plants/:id', routes.getPlantById)
