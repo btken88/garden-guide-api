@@ -27,7 +27,7 @@ app.delete('/user_plants/:id', routes.authorizeUser, routes.deleteUserPlant)
 app.patch('/user_plants/:id', routes.authorizeUser, routes.updateUserPlant)
 app.post('/login', routes.login)
 app.post('/signup', routes.signup)
-app.post('/weather', authorizeUser, routes.getWeather)
+app.post('/weather', routes.authorizeUser, routes.getWeather)
 
 app.listen(process.env.PORT, () => {
   console.log(`Running on port ${process.env.PORT}`)
