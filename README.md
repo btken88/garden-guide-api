@@ -10,7 +10,6 @@ This is the back end server for the Garden Guide App, built with Node/Express us
   - [General Info](#general-info)
   - [Table of Contents](#table-of-contents)
   - [Inspiration](#inspiration)
-  - [Demonstration Video](#demonstration-video)
   - [Technologies](#technologies)
   - [Setup](#setup)
   - [Example Code](#example-code)
@@ -18,16 +17,13 @@ This is the back end server for the Garden Guide App, built with Node/Express us
     - [Weather Proxy Endpoint](#weather-proxy-endpoint)
   - [Features](#features)
   - [Status](#status)
+  - [Download](#download)
   - [Contact](#contact)
   - [License](#license)
 
 ## Inspiration
 
 The Garden Guide App was born out of a need for a centralized place to keep all my gardening records. I found I was keeping notes, seed packets, growing information sheets, and custom calendars in dozens of different places and formats, and had no way to easily keep records. Garden Guide was built to solve those problems, with a database of plants and their growing needs, the ability to create to do lists and actions, and to track notes about each different plant in the dgarden.
-
-## Demonstration Video
-
-[Garden Guide Demonstation](https://www.youtube.com/)
 
 ## Technologies
 
@@ -120,6 +116,11 @@ Future Features:
 ## Status
 
 The application is fully functional and ready to be enjoyed as is. Future updates and improvements are still a possibility.
+
+
+## Download
+
+[Garden Guide](https://gardenguide.app/)
 
 ## Contact
 
